@@ -8,10 +8,10 @@ If you click on an object, it is destroyed;
 There is a UI element for score on the screen;
 The player’s score is tracked and displayed by the score text when hit a target;
 There are particle explosions when the player gets an object;
-A functional Game Over screen with a Restart button
-When the Restart button is clicked, the game resets
-Title screen that lets the user start the game
-Difficulty selection that affects spawn rate
+A functional Game Over screen with a Restart button;
+When the Restart button is clicked, the game resets;
+Title screen that lets the user start the game;
+Difficulty selection that affects spawn rate;
 
 Skills:
 2D View;
