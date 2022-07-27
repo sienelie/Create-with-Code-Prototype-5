@@ -9,12 +9,14 @@ public class GameManagerX : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI timerText;
     public GameObject titleScreen;
     public Button restartButton; 
 
     public List<GameObject> targetPrefabs;
 
     private int score;
+    private int timeLeft = 60;
     private float spawnRate = 1.5f;
     public bool isGameActive;
 
@@ -23,11 +25,13 @@ public class GameManagerX : MonoBehaviour
     private float minValueY = -3.75f; //  y value of the center of the bottom-most square
     
     // Start the game, remove title screen, reset score, and adjust spawnRate based on difficulty button clicked
-    public void StartGame()
+    public void StartGame(int difficulty)
     {
-        spawnRate /= 5;
+        spawnRate /= difficulty;
+        timeLeft /= difficulty;
         isGameActive = true;
         StartCoroutine(SpawnTarget());
+        StartCoroutine(StartTimer());
         score = 0;
         UpdateScore(0);
         titleScreen.SetActive(false);
@@ -47,6 +51,20 @@ public class GameManagerX : MonoBehaviour
             }
             
         }
+    }
+
+    IEnumerator StartTimer()
+    {
+        timerText.text = "Timer: " + timeLeft;
+
+        while (timeLeft > 0 && isGameActive)
+        {
+            yield return new WaitForSeconds(1);
+            timeLeft -= 1;
+            timerText.text = "Timer: " + timeLeft;
+        }
+        
+        GameOver();
     }
 
     // Generate a random spawn position based on a random index from 0 to 3
@@ -70,14 +88,14 @@ public class GameManagerX : MonoBehaviour
     public void UpdateScore(int scoreToAdd)
     {
         score += scoreToAdd;
-        scoreText.text = "score";
+        scoreText.text = "Score: " + score;
     }
 
     // Stop game, bring up game over text and restart button
     public void GameOver()
     {
         gameOverText.gameObject.SetActive(true);
-        restartButton.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(true);
         isGameActive = false;
     }
 
